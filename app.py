@@ -21,7 +21,10 @@ app.register_blueprint(blueprint_user, url_prefix="/api/user/")
 
 from  controllers.amigos import blueprint_friend
 app.register_blueprint(blueprint_friend, url_prefix="/api/friend/")
-    
+
+from  controllers.devendo import blueprint_owing
+app.register_blueprint(blueprint_owing, url_prefix="/api/owing/")    
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

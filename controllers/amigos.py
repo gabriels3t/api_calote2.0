@@ -36,7 +36,6 @@ def enviar_convite():
                                 body=f'Ola {amigo[0].nome} \n tudo bem ? \n Você recebeu um convite para se tornar amigo! de {user_name} Clique no link a seguir para aceitar: {invite_url} \n')
                 mail.send(message)
                 return  jsonify({"message": "Email enviado"}), 201 
-            
 
             else:
                 return jsonify({"message": "Amigo não cadastrado "}), 401 
