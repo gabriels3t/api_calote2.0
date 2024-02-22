@@ -19,7 +19,7 @@ def get_usuario():
             return jsonify({
                 "email": usuario.email,
                 "nome": usuario.nome,
-                "amigos": [amigo.nome for amigo in usuario.amigos]
+                "amigos": [amigo.nome for amigo in usuario.listar_amigos()]
             }), 200
         else:
             return jsonify({"message": "Usuário não encontrado"}), 404
@@ -36,11 +36,10 @@ def login():
     if not data or 'email' not in data or 'senha' not in data:
         return jsonify({"message": "Dados de login incompletos"}), 400
 
-    #email = hash_email(data['email'])
+    email = hash_email(data['email'])
     senha = data['senha']
-    email =data['email']
     usuario = Usuario.query.filter_by(email=email).first()
-    if usuario and usuario.check_senha(data['senha']):
+    if usuario and usuario.check_senha(senha):
         session['email_usuario'] = email
         return jsonify({'message': 'Login bem-sucedido', 'usuario': usuario.serialize()}), 200
     else:
@@ -69,7 +68,7 @@ def add_usuario():
 
     try:
         usuario = Usuario.cadastrar(email, nome, senha)
-        return jsonify({"message": "Usuário adicionado com sucesso", "usuario_id": usuario.email}), 201
+        return jsonify({"message": "Usuário adicionado com sucesso", "usuer_email": usuario.email}), 201
     except Exception as e:
         return jsonify({"message": "Erro ao adicionar usuário", "error": str(e)}), 500
 

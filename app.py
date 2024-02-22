@@ -18,6 +18,9 @@ mail.init_app(app)
 
 from controllers.usuario import blueprint_user
 app.register_blueprint(blueprint_user, url_prefix="/api/user/")
+
+from  controllers.amigos import blueprint_friend
+app.register_blueprint(blueprint_friend, url_prefix="/api/friend/")
     
 if __name__ == "__main__":
     with app.app_context():
