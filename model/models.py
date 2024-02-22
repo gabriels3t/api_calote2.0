@@ -42,6 +42,10 @@ class Usuario(db.Model):
             'email': self.email,
             'nome': self.nome
         }
+    def alterar_senha(self, nova_senha):
+        
+        self.senha = bcrypt.generate_password_hash(nova_senha).decode('utf-8')
+        db.session.commit()
     
 
 class Devendo(db.Model):
