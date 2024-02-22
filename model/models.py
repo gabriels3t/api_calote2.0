@@ -117,4 +117,17 @@ class Devendo(db.Model):
         valor_a_pagar = valor_receptor - total  
         return devendos_pendentes,valor_a_pagar,usuario,amigo, total 
 
-   
+    def pagar(nome_devedor, nome_receptor):
+        devendos_pendentes = Devendo.query.filter_by(email_devedor=nome_devedor,
+                                                 email_receptor=nome_receptor,
+                                                 pago=False).all()
+        devendo_quites = Devendo.query.filter_by(email_devedor=nome_receptor,
+                                              email_receptor=nome_devedor,
+                                              pago=False).all()
+        for devendo in devendos_pendentes:
+            devendo.pago = True
+        db.session.commit()
+        for devendo in devendo_quites:
+            devendo.pago = True
+        db.session.commit()
+        

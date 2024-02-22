@@ -58,30 +58,17 @@ def consulta():
     })
 
 
-@blueprint_owing.route("/consultas", methods=["POST"])
-def consultar():
-    # Obtém os dados da solicitação
+@blueprint_owing.route("/pagar",methods=["POST"])
+def pagamento():
     data = {
         'email_receptor': request.args.get('email_receptor'),
         'email_devedor': request.args.get('email_devedor')
-    }
-    
-    # Valida se os dados estão presentes e são válidos
+        }
     if not data or 'email_receptor' not in data or 'email_devedor' not in data:
-        return jsonify({"message": "Dados de usuário incompletos"}), 400
+        return jsonify({"message": "Dados de usuário incompletos"}), 400   
     
     try:
-        # Chama a função para consultar as dívidas
-        devendos_pendentes = Devendo.query.all()
-        
-        # Retorna os resultados em formato JSON
-        return jsonify({
-            "devendos_pendentes": [devendo.pago for devendo in devendos_pendentes],
-            
-        })
+        devedor = Devendo.pagar(data['email_devedor'],data['email_receptor'])
+        return jsonify({"message": "Pago "}), 201
     except Exception as e:
-        return jsonify({"message": "Erro ao consultar as dívidas", "error": str(e)}), 500
-
-
-
-
+        return jsonify({"message": "Erro ao cadastrada Divida", "error": str(e)}), 500
